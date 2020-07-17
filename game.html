@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="jquery.min.js"></script>
+    <script src="controller.js"></script>
+    <link rel="stylesheet" href="gaya.css" />
+    <title>Zombie - Zone</title>
+  </head>
+  <body>
+    <div id="gameZone">
+      <div id="scoreZone" style="display: none;">
+        <div class="score">SCORE : <span id="valueScore"></span></div>
+      </div>
+      <div id="uiZone">
+        <div id="menuZone">
+          <h1 style="color:green;">ZOMBIE ZONE</h1><br>
+          <div class="buttonZone">
+            <a id="btnMulai">Mulai</a>
+            <a id="btnInfo">Info</a>
+            <a id="btnExit">Exit</a>
+          </div>
+        </div>
+        <div id="infoZone" style="display: none;">
+          <a id="btnBack">Kembali</a>
+          <h1>Informasi Pembuat</h1>
+          <div class="konten">
+            <h2>Informasi Pembuat</h2>
+            <h4>Adhika Bhisana - 17.5.00033</h4>
+          </div>
+        </div>
+        <div id="gameOver" style="display: none;">
+		<h1> ANDA TERMAKAN ZOMBIE DAN TERINFEKSI!!!</h1>
+          <center>
+            <a id="btnStart">Mulai</a> <a id="btnHome">Kembali</a>
+          </center>
+        </div>
+      </div>
+      <canvas id="gameCanvas" width="800px" height="600px"></canvas>
+    </div>
+  </body>
+</html>

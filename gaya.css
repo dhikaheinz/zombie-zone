@@ -1,0 +1,126 @@
+body {
+  background-color: black;
+}
+
+#gameZone {
+  width: 800px;
+  height: 600px;
+  margin: auto;
+  background-image: url("src/bg/bg.png");
+  background-repeat: round;
+  background-size: contain;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: lighter;
+  position: relative;
+}
+
+#uiZone {
+  position: absolute;
+  width: 800px;
+  height: 450px;
+  margin: 75px 0;
+  background-color: rgba(255, 255, 255, 0.6);
+  z-index: 2;
+}
+
+#menuZone {
+  text-align: center;
+  width: 35%;
+  margin: auto;
+}
+
+#menuZone .buttonZone {
+  margin-left: 50px;
+  margin-top: 20px;
+  width: 400px;
+}
+
+#menuZone .buttonZone a {
+  margin-bottom: 20px;
+  display: block;
+  background-color: blueviolet;
+  background-repeat: no-repeat;
+  width: 190px;
+  height: 20px;
+  padding: 20px 0;
+  cursor: pointer;
+}
+
+#menuZone .buttonZone a:hover {
+  background-color: rgb(101, 40, 158);
+}
+
+#btnBack {
+  text-align: center;
+  margin-left: 10px;
+  margin-top: 10px;
+  float: left;
+  width: 400px;
+}
+
+#uiCredit {
+  text-align: center;
+  margin: auto;
+}
+
+#infoZone a {
+  display: block;
+  background-color: blueviolet;
+  background-repeat: no-repeat;
+  width: 150px;
+  height: 20px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+#infoZone a:hover {
+  background-color: rgb(101, 40, 158);
+}
+
+h1 {
+  text-align: center;
+}
+
+.konten {
+  padding-right: 50px;
+  width: 300px;
+  height: 350px;
+  float: right;
+}
+
+#gameOver {
+  text-align: center;
+  margin-top: 180px;
+}
+
+#gameOver a {
+  display: block;
+  background-color: blueviolet;
+  background-repeat: no-repeat;
+  width: 150px;
+  height: 20px;
+  padding: 10px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+#scoreZone {
+  width: auto;
+  height: 50px;
+  background-color: rgba(0, 0, 0, 0.336);
+}
+
+.score {
+  font-weight: bold;
+  margin: 10px;
+  font-size: 20px;
+  position: absolute;
+  -webkit-text-stroke-width: 0, 5px;
+  -webkit-text-stroke-color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
+}
+
+#gameCanvas {
+  z-index: 1;
+  position: relative;
+}
