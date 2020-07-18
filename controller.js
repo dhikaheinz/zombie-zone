@@ -14,7 +14,7 @@ $(document).ready(function () {
   var arrowDown = 40;
 
   var currentFrame = 0;
-  var maxHp;
+  var maxHp = 0;
   var maxHpZombie = 200;
 
   var playGame = false;
@@ -67,6 +67,8 @@ $(document).ready(function () {
 
   //Stat Value
   var valueScore = $("#valueScore");
+  var valueLevel = $("#valueLevel");
+  var tabDarah = $("#tabDarah");
 
   function draw_hero(x, y) {
     if (currentFrame == 3) {
@@ -154,9 +156,11 @@ $(document).ready(function () {
     }
 
     valueScore.html("0");
+
     score = 0;
+    level = 0;
     bossSpawn = 0;
-    maxHp = 100;
+    maxHp = 80;
     zombieSpeed = 3;
 
     bullets = new Array();
@@ -174,7 +178,7 @@ $(document).ready(function () {
     }
     zombieGreen.push(new Zombie(300, -100));
 
-    player = new Player(-50, 510);
+    player = new Player(350, 500);
     $(window).keydown(function (e) {
       var keyCode = e.keyCode;
       if (keyCode == arrowRight) {
@@ -201,13 +205,14 @@ $(document).ready(function () {
         bullets.push(new Bullet(player.x + 45, player.y - 40));
       }
     });
+
     difficult();
     resetCanvas();
   }
 
   function resetCanvas() {
     context.clearRect(0, 0, canvasWidth, canvasHeight);
-
+    darahBar();
     spawnHero();
     moveHero();
     spawnMonster();
@@ -234,65 +239,69 @@ $(document).ready(function () {
   }
 
   function spawnMonster() {
-    var zombieLength = zombie.length;
-    for (var i = zombieLength - 1; i > -1; i--) {
-      var tmpZombie = zombie[i];
-      draw_zombie(tmpZombie.x, tmpZombie.y);
-      zombie[i].y = zombie[i].y + (zombieSpeed - 1);
-      var bulletsLength = bullets.length;
-      for (var j = bulletsLength - 1; j > -1; j--) {
-        var tmpBullet = bullets[j];
+    if (bossSpawn > 0) {
+      valueLevel.html("LEVEL 1");
+      var zombieLength = zombie.length;
+      for (var i = zombieLength - 1; i > -1; i--) {
+        var tmpZombie = zombie[i];
+        draw_zombie(tmpZombie.x, tmpZombie.y);
+        zombie[i].y = zombie[i].y + (zombieSpeed - 1);
+        var bulletsLength = bullets.length;
+        for (var j = bulletsLength - 1; j > -1; j--) {
+          var tmpBullet = bullets[j];
+          if (
+            tmpZombie.x + 80 >= tmpBullet.x &&
+            tmpZombie.x + 0 < tmpBullet.x + 20 &&
+            tmpZombie.y + 50 >= tmpBullet.y &&
+            tmpZombie.y + 0 < tmpBullet.y + 50
+          ) {
+            var idxZombie = zombie.indexOf(tmpZombie);
+            var idxBullet = bullets.indexOf(tmpBullet);
+            zombie.splice(idxZombie, 1);
+            bullets.splice(idxBullet, 1);
+            valueScore.html((score += 2));
+            break;
+          }
+        }
         if (
-          tmpZombie.x + 80 >= tmpBullet.x &&
-          tmpZombie.x + 0 < tmpBullet.x + 20 &&
-          tmpZombie.y + 50 >= tmpBullet.y &&
-          tmpZombie.y + 0 < tmpBullet.y + 50
+          tmpZombie.x + 50 >= player.x &&
+          tmpZombie.x + 0 < player.x + 50 &&
+          tmpZombie.y + 50 >= player.y &&
+          tmpZombie.y + 0 < player.y + 50
         ) {
           var idxZombie = zombie.indexOf(tmpZombie);
-          var idxBullet = bullets.indexOf(tmpBullet);
           zombie.splice(idxZombie, 1);
-          bullets.splice(idxBullet, 1);
-          valueScore.html((score += 2));
+          if (maxHp > 0) {
+            maxHp -= 20;
+          }
           break;
         }
-      }
-      if (
-        tmpZombie.x + 50 >= player.x &&
-        tmpZombie.x + 0 < player.x + 50 &&
-        tmpZombie.y + 50 >= player.y &&
-        tmpZombie.y + 0 < player.y + 50
-      ) {
-        var idxZombie = zombie.indexOf(tmpZombie);
-        zombie.splice(idxZombie, 1);
-        if (maxHp > 0) {
-          maxHp -= 10;
+        if (tmpZombie.y >= canvasHeight - 50) {
+          var idxZombie = zombie.indexOf(tmpZombie);
+          zombie.splice(idxZombie, 1);
+          break;
         }
-        break;
-      }
-      if (tmpZombie.y >= canvasHeight - 120) {
-        var idxZombie = zombie.indexOf(tmpZombie);
-        zombie.splice(idxZombie, 1);
-        break;
-      }
-      while (zombie.length < numZombie) {
-        var x = Math.floor(
-          Math.random() * (Math.random() * Math.random() + 260) + 150
-        );
-        var y =
-          Math.floor(Math.random() * (Math.random() * Math.random() - 260)) -
-          50;
-        var x1 = Math.floor(
-          Math.random() * (Math.random() * Math.random() + 260) + 300
-        );
-        var y1 =
-          Math.floor(Math.random() * (Math.random() * Math.random() - 260)) -
-          50;
-        zombie.push(new Zombie(x1, y1));
-        zombie.push(new Zombie(x, y));
+        while (zombie.length < numZombie) {
+          var x = Math.floor(
+            Math.random() * (Math.random() * Math.random() + 260) + 150
+          );
+          var y =
+            Math.floor(Math.random() * (Math.random() * Math.random() - 260)) -
+            50;
+          var x1 = Math.floor(
+            Math.random() * (Math.random() * Math.random() + 260) + 300
+          );
+          var y1 =
+            Math.floor(Math.random() * (Math.random() * Math.random() - 260)) -
+            50;
+          zombie.push(new Zombie(x1, y1));
+          zombie.push(new Zombie(x, y));
+        }
       }
     }
 
     if (bossSpawn > 30) {
+      valueLevel.html("LEVEL 2");
       var zombieLength2 = zombieGreen.length;
       for (var i = zombieLength2 - 1; i > -1; i--) {
         var tmpZombieGreen = zombieGreen[i];
@@ -324,11 +333,11 @@ $(document).ready(function () {
           var idxZombie = zombieGreen.indexOf(tmpZombieGreen);
           zombieGreen.splice(idxZombie, 1);
           if (maxHp > 0) {
-            maxHp -= 10;
+            maxHp -= 20;
           }
           break;
         }
-        if (tmpZombieGreen.y >= canvasHeight - 120) {
+        if (tmpZombieGreen.y >= canvasHeight - 50) {
           var idxZombie = zombieGreen.indexOf(tmpZombieGreen);
           zombieGreen.splice(idxZombie, 1);
           break;
@@ -361,16 +370,16 @@ $(document).ready(function () {
       player.x = player.x + stepX;
     }
 
-    if (player.x < 150) {
-      player.x = 150;
+    if (player.x < 140) {
+      player.x = 140;
     } else if (player.x > canvasWidth - 250) {
       player.x = canvasWidth - 250;
     }
 
     if (player.y < 10) {
       player.y = 10;
-    } else if (player.y > canvasHeight - 150) {
-      player.y = canvasHeight - 150;
+    } else if (player.y > canvasHeight - 100) {
+      player.y = canvasHeight - 100;
     }
   }
 
@@ -413,6 +422,20 @@ $(document).ready(function () {
       bossSpawn = 60;
     }
     setTimeout(difficult, 1000);
+  }
+
+  function darahBar() {
+    if (maxHp == 80) {
+      tabDarah.css("background-image", "url(src/darah-bar/heath-bar-1.png)");
+    } else if (maxHp == 60) {
+      tabDarah.css("background-image", "url(src/darah-bar/heath-bar-2.png)");
+    } else if (maxHp == 40) {
+      tabDarah.css("background-image", "url(src/darah-bar/heath-bar-3.png)");
+    } else if (maxHp == 20) {
+      tabDarah.css("background-image", "url(src/darah-bar/heath-bar-4.png)");
+    } else if (maxHp == 0) {
+      tabDarah.css("background-image", "url(src/darah-bar/heath-bar-5.png)");
+    }
   }
 
   function guiMenu() {
