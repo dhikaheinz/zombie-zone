@@ -104,6 +104,17 @@ h1 {
   margin-bottom: 20px;
 }
 
+#gameWin a {
+  display: block;
+  background-color: blueviolet;
+  background-repeat: no-repeat;
+  width: 150px;
+  height: 20px;
+  padding: 10px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
 #scoreZone {
   position: relative;
   margin: auto;

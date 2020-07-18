@@ -15,14 +15,14 @@ $(document).ready(function () {
 
   var currentFrame = 0;
   var maxHp = 0;
-  var maxHpZombie = 200;
+  var maxHpBoss = 0;
 
   var playGame = false;
   var score;
   var bullets;
-  var zombie, zombieGreen;
+  var zombie, zombieGreen, zombieBoss;
   var player;
-  var bossSpawn;
+  var bossSpawn = 0;
 
   var Player = function (x, y) {
     this.x = x;
@@ -35,6 +35,7 @@ $(document).ready(function () {
   var imgHero = new Image();
   var imgZombie = new Image();
   var imgZombieGreen = new Image();
+  var imgZombieBoss = new Image();
 
   var Bullet = function (x, y) {
     this.x = x;
@@ -56,14 +57,15 @@ $(document).ready(function () {
   var gameOver = $("#gameOver");
   var scoreZone = $("#scoreZone");
   var gameCanvas = $("#gameCanvas");
+  var gameWin = $("#gameWin");
 
   //Button
   var btnMulai = $("#btnMulai");
   var btnInfo = $("#btnInfo");
   var btnExit = $("#btnExit");
   var btnBack = $("#btnBack");
-  var btnStart = $("#btnStart");
-  var btnHome = $("#btnHome");
+  var btnStart = $(".btnStart");
+  var btnHome = $(".btnHome");
 
   //Stat Value
   var valueScore = $("#valueScore");
@@ -141,6 +143,21 @@ $(document).ready(function () {
     context.drawImage(imgZombieGreen, x, y, 100, 100);
   }
 
+  function draw_zombieBoss(x, y) {
+    if (currentFrame == 5) {
+      imgZombieBoss.src = "src/boss/boss-1.png";
+    } else if (currentFrame == 10) {
+      imgZombieBoss.src = "src/boss/boss-2.png";
+    } else if (currentFrame == 15) {
+      imgZombieBoss.src = "src/boss/boss-3.png";
+    } else if (currentFrame == 20) {
+      imgZombieBoss.src = "src/boss/boss-4.png";
+    } else if (currentFrame == 25) {
+      currentFrame = 0;
+    }
+    context.drawImage(imgZombieBoss, x, y, 470, 430);
+  }
+
   function draw_bullet(x, y) {
     context.drawImage(imgBullet, x, y, 50, 50);
   }
@@ -161,11 +178,13 @@ $(document).ready(function () {
     level = 0;
     bossSpawn = 0;
     maxHp = 80;
+    maxHpBoss = 100;
     zombieSpeed = 3;
 
     bullets = new Array();
     zombie = new Array();
     zombieGreen = new Array();
+    zombieBoss = new Array();
     numZombie = 3;
 
     for (var i = 0; i < 3; i++) {
@@ -177,6 +196,7 @@ $(document).ready(function () {
       zombie.push(new Zombie(x, y));
     }
     zombieGreen.push(new Zombie(300, -100));
+    zombieBoss.push(new Zombie(180, -100));
 
     player = new Player(350, 500);
     $(window).keydown(function (e) {
@@ -353,6 +373,55 @@ $(document).ready(function () {
         }
       }
     }
+
+    if (bossSpawn >= 60) {
+      valueLevel.html("RAAJJAAA MOONSTEER!!!");
+      zombie.splice(zombie);
+      zombieGreen.splice(zombieGreen);
+      var zombieLength3 = zombieBoss.length;
+      for (var i = zombieLength3 - 1; i > -1; i--) {
+        var tmpZombieBoss = zombieBoss[i];
+        draw_zombieBoss(tmpZombieBoss.x, tmpZombieBoss.y);
+        zombieBoss[i].y = zombieBoss[i].y + 1;
+        var zombieLength3 = bullets.length;
+        for (var j = zombieLength3 - 1; j > -1; j--) {
+          var tmpBullet = bullets[j];
+          if (
+            tmpZombieBoss.x + 350 >= tmpBullet.x &&
+            tmpZombieBoss.x + 0 < tmpBullet.x + 20 &&
+            tmpZombieBoss.y + 250 >= tmpBullet.y &&
+            tmpZombieBoss.y + 0 < tmpBullet.y + 50
+          ) {
+            var idxZombie = zombieBoss.indexOf(tmpZombieBoss);
+            var idxBullet = bullets.indexOf(tmpBullet);
+            bullets.splice(idxBullet, 1);
+            maxHpBoss -= 10;
+            break;
+          }
+        }
+        if (
+          tmpZombieBoss.x + 350 >= player.x &&
+          tmpZombieBoss.x + 0 < player.x + 50 &&
+          tmpZombieBoss.y + 250 >= player.y &&
+          tmpZombieBoss.y + 0 < player.y + 50
+        ) {
+          var idxZombie = zombieBoss.indexOf(tmpZombieBoss);
+          zombieBoss.splice(idxZombie, 1);
+          playGame = false;
+          uiZone.show();
+          gameOver.show();
+          break;
+        }
+        if (maxHpBoss <= 0) {
+          zombieBoss.splice(zombieBoss);
+          valueScore.html((score += 100));
+          playGame = false;
+          uiZone.show();
+          gameWin.show();
+          break;
+        }
+      }
+    }
   }
 
   function moveHero() {
@@ -464,6 +533,7 @@ $(document).ready(function () {
       e.preventDefault();
       uiZone.hide();
       gameOver.hide();
+      gameWin.hide();
       scoreZone.show();
       console.log("Mulai lagi");
       gameStart();
@@ -473,6 +543,7 @@ $(document).ready(function () {
       menuZone.show();
       uiZone.show();
       gameOver.hide();
+      gameWin.hide();
       scoreZone.hide();
       playGame = false;
       console.log("kembali home");
