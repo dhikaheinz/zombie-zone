@@ -17,28 +17,28 @@ body {
 #uiZone {
   position: absolute;
   width: 800px;
-  height: 450px;
+  height: 500px;
   margin: 75px 0;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(4, 105, 38, 0.459);
   z-index: 2;
 }
 
 #menuZone {
   text-align: center;
-  width: 35%;
   margin: auto;
 }
 
 #menuZone .buttonZone {
-  margin-left: 50px;
+  margin-left: 39%;
   margin-top: 20px;
   width: 400px;
 }
 
 #menuZone .buttonZone a {
+  border-radius: 50px;
   margin-bottom: 20px;
   display: block;
-  background-color: blueviolet;
+  background-color: rgb(137, 139, 22);
   background-repeat: no-repeat;
   width: 190px;
   height: 20px;
@@ -47,7 +47,7 @@ body {
 }
 
 #menuZone .buttonZone a:hover {
-  background-color: rgb(101, 40, 158);
+  background-color: rgb(96, 97, 15);
 }
 
 #btnBack {
@@ -63,9 +63,14 @@ body {
   margin: auto;
 }
 
-#infoZone a {
+#infoZone {
+  background-color: rgba(199, 199, 199, 0.473);
+  height: 450px;
+}
+
+#btnBack {
   display: block;
-  background-color: blueviolet;
+  background-color: rgb(137, 139, 22);
   background-repeat: no-repeat;
   width: 150px;
   height: 20px;
@@ -74,7 +79,7 @@ body {
 }
 
 #infoZone a:hover {
-  background-color: rgb(101, 40, 158);
+  background-color: rgb(96, 97, 15);
 }
 
 h1 {
@@ -95,7 +100,7 @@ h1 {
 
 #gameOver a {
   display: block;
-  background-color: blueviolet;
+  background-color: rgb(137, 139, 22);
   background-repeat: no-repeat;
   width: 150px;
   height: 20px;
@@ -106,7 +111,7 @@ h1 {
 
 #gameWin a {
   display: block;
-  background-color: blueviolet;
+  background-color: rgb(137, 139, 22);
   background-repeat: no-repeat;
   width: 150px;
   height: 20px;

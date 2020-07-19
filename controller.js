@@ -72,6 +72,20 @@ $(document).ready(function () {
   var valueLevel = $("#valueLevel");
   var tabDarah = $("#tabDarah");
 
+  //Sound Game
+  var gamebgMusic = $("#gamebgMusic").get(0);
+  var gamebgMusic2 = $("#gamebgMusic2").get(0);
+  var gameSfxGun = $("#gameSfxGun").get(0);
+  var gameSfxZombieRoar = $("#gameSfxZombieRoar").get(0);
+  var gameSfxDragonRoar = $("#gameSfxDragonRoar").get(0);
+  var gameSfxSelect = $("#gameSfxSelect").get(0);
+  var gameSfxWin = $("#gameSfxWin").get(0);
+  var gameSfxPrepare = $("#gameSfxPrepare").get(0);
+  var gameSfxRound1 = $("#gameSfxRound1").get(0);
+  var gameSfxRound2 = $("#gameSfxRound2").get(0);
+  var gameSfxRoundFinal = $("#gameSfxRoundFinal").get(0);
+  var gameSfxGameOver = $("#gameSfxGameOver").get(0);
+
   function draw_hero(x, y) {
     if (currentFrame == 3) {
       imgHero.src = "src/hero/survivor-reload_rifle_0.png";
@@ -163,6 +177,7 @@ $(document).ready(function () {
   }
 
   function init() {
+    gamebgMusic.play();
     guiMenu();
   }
   init();
@@ -171,7 +186,9 @@ $(document).ready(function () {
     if (!playGame) {
       playGame = true;
     }
-
+    gameSfxPrepare.play();
+    gamebgMusic.pause();
+    gamebgMusic2.play();
     valueScore.html("0");
 
     score = 0;
@@ -196,7 +213,7 @@ $(document).ready(function () {
       zombie.push(new Zombie(x, y));
     }
     zombieGreen.push(new Zombie(300, -100));
-    zombieBoss.push(new Zombie(180, -100));
+    zombieBoss.push(new Zombie(180, -500));
 
     player = new Player(350, 500);
     $(window).keydown(function (e) {
@@ -250,15 +267,18 @@ $(document).ready(function () {
       var tmpBullet = bullets[i];
       draw_bullet(tmpBullet.x, tmpBullet.y);
       tmpBullet.y += tmpBullet.vY;
-      if (tmpBullet.y >= canvasHeight) {
+      gameSfxGun.play();
+      if (tmpBullet.y <= 10) {
         var idxBullet = bullets.indexOf(tmpBullet);
         bullets.splice(idxBullet, 1);
+        gameSfxGun.pause();
         break;
       }
     }
   }
 
   function spawnMonster() {
+    gameSfxZombieRoar.play();
     if (bossSpawn > 0) {
       valueLevel.html("LEVEL 1");
       var zombieLength = zombie.length;
@@ -375,6 +395,8 @@ $(document).ready(function () {
     }
 
     if (bossSpawn >= 60) {
+      gameSfxZombieRoar.pause();
+      gameSfxDragonRoar.play();
       valueLevel.html("RAAJJAAA MOONSTEER!!!");
       zombie.splice(zombie);
       zombieGreen.splice(zombieGreen);
@@ -382,7 +404,7 @@ $(document).ready(function () {
       for (var i = zombieLength3 - 1; i > -1; i--) {
         var tmpZombieBoss = zombieBoss[i];
         draw_zombieBoss(tmpZombieBoss.x, tmpZombieBoss.y);
-        zombieBoss[i].y = zombieBoss[i].y + 1;
+        zombieBoss[i].y = zombieBoss[i].y + 0.5;
         var zombieLength3 = bullets.length;
         for (var j = zombieLength3 - 1; j > -1; j--) {
           var tmpBullet = bullets[j];
@@ -410,6 +432,10 @@ $(document).ready(function () {
           playGame = false;
           uiZone.show();
           gameOver.show();
+          gameSfxGameOver.play();
+          gameSfxDragonRoar.pause();
+          gamebgMusic2.pause();
+          gamebgMusic.play();
           break;
         }
         if (maxHpBoss <= 0) {
@@ -418,6 +444,10 @@ $(document).ready(function () {
           playGame = false;
           uiZone.show();
           gameWin.show();
+          gameSfxWin.play();
+          gameSfxDragonRoar.pause();
+          gamebgMusic2.pause();
+          gamebgMusic.play();
           break;
         }
       }
@@ -462,12 +492,33 @@ $(document).ready(function () {
       playGame = false;
       uiZone.show();
       gameOver.show();
+      gameSfxGameOver.play();
+      gamebgMusic2.pause();
+      gamebgMusic.play();
     }
   }
 
   function difficult() {
-    if (bossSpawn < 60) {
+    if (bossSpawn < 100) {
       bossSpawn++;
+      if (bossSpawn > 2) {
+        gameSfxRound1.play();
+      }
+      if (bossSpawn > 4) {
+        gameSfxRound1.pause();
+      }
+      if (bossSpawn > 32) {
+        gameSfxRound2.play();
+      }
+      if (bossSpawn > 34) {
+        gameSfxRound2.pause();
+      }
+      if (bossSpawn > 62) {
+        gameSfxRoundFinal.play();
+      }
+      if (bossSpawn > 66) {
+        gameSfxRoundFinal.pause();
+      }
       if (bossSpawn > 10) {
         zombieSpeed = 4;
       }
@@ -488,7 +539,7 @@ $(document).ready(function () {
       }
     } else {
       zombieSpeed = 10;
-      bossSpawn = 60;
+      bossSpawn = 100;
     }
     setTimeout(difficult, 1000);
   }
@@ -510,6 +561,7 @@ $(document).ready(function () {
   function guiMenu() {
     btnMulai.click(function (e) {
       e.preventDefault();
+      gameSfxSelect.play();
       uiZone.hide();
       menuZone.hide();
       scoreZone.show();
@@ -519,18 +571,21 @@ $(document).ready(function () {
     });
     btnInfo.click(function (e) {
       e.preventDefault();
+      gameSfxSelect.play();
       menuZone.hide();
       infoZone.show();
       console.log("masuk info");
     });
     btnBack.click(function (e) {
       e.preventDefault();
+      gameSfxSelect.play();
       menuZone.show();
       infoZone.hide();
       console.log("kembali info");
     });
     btnStart.click(function (e) {
       e.preventDefault();
+      gameSfxSelect.play();
       uiZone.hide();
       gameOver.hide();
       gameWin.hide();
@@ -540,6 +595,7 @@ $(document).ready(function () {
     });
     btnHome.click(function (e) {
       e.preventDefault();
+      gameSfxSelect.play();
       menuZone.show();
       uiZone.show();
       gameOver.hide();

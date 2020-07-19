@@ -20,7 +20,7 @@
     <div id="gameZone">
       <div id="uiZone">
         <div id="menuZone">
-          <h1 style="color: green;">ZOMBIE ZONE</h1>
+          <img src="src/ZOMBIE-ZONE.png" width="700px" />
           <br />
           <div class="buttonZone">
             <a id="btnMulai">Mulai</a>
@@ -33,7 +33,34 @@
           <h1>Informasi Pembuat</h1>
           <div class="konten">
             <h2>Informasi Pembuat</h2>
-            <h4>Adhika Bhisana - 17.5.00033</h4>
+            <img src="src/LOGO_SINUS.png" width="40%" />
+            <img src="src/profil-pembuat.jpeg" width="40%" />
+          </div>
+          <div class="konten">
+            <h2>Informasi Pembuat</h2>
+            <h3>Adhika Bhisana - 17.5.00033</h3>
+            <h4>
+              Instagram : Dhikaheinz<br />
+              Github : Dhikaheinz
+            </h4>
+            <h3>Thanks To Free Source</h3>
+            <h4>
+              Sfx : <br />
+              <a href="https://gamesounds.xyz/" target="_blank"
+                >gamesounds.xyz</a
+              ><br />
+              <a href="https://www.kenney.nl/" target="_blank">kenney.nl</a
+              ><br />
+              <a href="https://www.freesfx.co.uk/" target="_blank"
+                >freesfx.co.uk</a
+              ><br />
+
+              Sprite :<br />
+              <a href="https://opengameart.org/" target="_blank"
+                >opengameart.org</a
+              ><br />
+              <a href="https://www.freepik.com/" target="_blank">freepik.com</a>
+            </h4>
           </div>
         </div>
         <div id="gameOver" style="display: none;">
@@ -50,6 +77,42 @@
         </div>
       </div>
       <canvas id="gameCanvas" width="800px" height="600px"></canvas>
+      <audio id="gamebgMusic" loop>
+        <source src="src/music/bg/music-bg-home.ogg" />
+      </audio>
+      <audio id="gamebgMusic2" loop>
+        <source src="src/music/bg/music-bg.ogg" />
+      </audio>
+      <audio id="gameSfxGun">
+        <source src="src/music/sfx/gun-fire.ogg" />
+      </audio>
+      <audio id="gameSfxZombieRoar" loop>
+        <source src="src/music/sfx/zombie-roar.ogg" />
+      </audio>
+      <audio id="gameSfxDragonRoar" loop>
+        <source src="src/music/sfx/dragon-roar.ogg" />
+      </audio>
+      <audio id="gameSfxSelect">
+        <source src="src/music/sfx/select_006.ogg" />
+      </audio>
+      <audio id="gameSfxWin">
+        <source src="src/music/sfx/you_win.ogg" />
+      </audio>
+      <audio id="gameSfxPrepare">
+        <source src="src/music/sfx/prepare_yourself.ogg" />
+      </audio>
+      <audio id="gameSfxRound1">
+        <source src="src/music/sfx/round_1.ogg" />
+      </audio>
+      <audio id="gameSfxRound2">
+        <source src="src/music/sfx/round_2.ogg" />
+      </audio>
+      <audio id="gameSfxRoundFinal">
+        <source src="src/music/sfx/final_round.ogg" />
+      </audio>
+      <audio id="gameSfxGameOver">
+        <source src="src/music/sfx/game_over.ogg" />
+      </audio>
     </div>
   </body>
 </html>
